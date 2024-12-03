@@ -1,0 +1,68 @@
+---
+import { Image } from 'astro:assets';
+
+const {
+  id,
+  avatar,
+  name,
+  title,
+  size = 120,
+  outlined,
+  outlineColour = 'dark',
+} = Astro.props;
+---
+
+<div
+  class='avatar'
+  data-id={id}
+  data-outline={outlined}
+  data-outline-colour={outlineColour}
+>
+  <Image
+    src={avatar}
+    alt={`${name} profile - ${title} || 'avatar'`}
+    width={size}
+    height={size}
+    title={name}
+    loading={'eager'}
+  />
+</div>
+
+<style>
+  .avatar img {
+    /* width: 100%; */
+    aspect-ratio: 1 / 1;
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: center;
+    filter: saturate(0.2) grayscale(0.8);
+  }
+  .avatar {
+    position: relative;
+    width: fit-content;
+  }
+  [data-outline='true'].avatar::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 2%;
+    left: 4%;
+    border-radius: 50%;
+    border: 1.2px solid var(--clr-white);
+  }
+  .avatar::after {
+    border: none;
+  }
+
+  .avatar[data-outline-colour='light']::after {
+    border-color: var(--clr-white);
+  }
+  .avatar[data-outline-colour='dark']::after {
+    border-color: var(--clr-black);
+  }
+
+  [data-id='1'] img {
+    object-position: top;
+  }
+</style>

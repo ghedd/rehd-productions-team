@@ -1,0 +1,72 @@
+---
+import { Image } from 'astro:assets';
+import { getCollection } from 'astro:content';
+import Card from './Card.astro';
+import ContactModal from './ContactModal.astro';
+
+const allContacts = await getCollection('contacts');
+---
+
+<section id='contacts'>
+  
+  <div class='headline'>
+    <h1>Meet the Team</h1>
+  </div>
+  <div class='card-container pt-xl'>
+    {
+      allContacts
+        .sort((a, b) => a.data.id - b.data.id)
+        .map((contact) => (
+          <Card
+          id={contact.data.id}
+            name={contact.data.name}
+            title={contact.data.title}
+            avatar={contact.data.avatar}
+            profile={contact.data.profile}
+          />
+          <ContactModal id={contact.data.id}
+          avatar={contact.data.avatar} name={contact.data.name} social={contact.data.social} email={contact.data.email}/>
+        ))
+    }
+  </div>
+</section>
+
+<script>
+  const modalButtons = document.querySelectorAll('.open-modal') as NodeListOf<HTMLButtonElement>;
+  const modals = document.querySelectorAll('.contact-modal') as NodeListOf<HTMLDialogElement>;
+  
+  const closeButtons = document.querySelectorAll('[data-close-button]') as NodeListOf<HTMLButtonElement>;
+  
+  modalButtons.forEach((button, index) => {
+    button.addEventListener('click', () => {
+      modals[index].showModal();
+    });
+  });
+
+  closeButtons.forEach((button) => {
+    button.addEventListener('click', () => {
+      const dialog = button.closest('dialog');
+      if (dialog) {
+        dialog.close();
+      }
+    });
+  });
+</script>
+
+
+<style>
+  
+  .headline {
+    text-align: center;
+    font-size: 1.6rem;
+  }
+  #contacts {
+    padding: 2rem 0;
+  }
+  .card-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 1rem;
+  }
+
+</style>

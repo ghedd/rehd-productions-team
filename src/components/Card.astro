@@ -1,0 +1,126 @@
+---
+import Avatar from './Avatar.astro';
+
+const { id, name, title, avatar, profile } = Astro.props;
+
+// function getBackgroundColor(id: number) {
+//   return id === 1
+//     ? 'var(--clr-accent-1)'
+//     : id === 2
+//       ? 'var(--clr-accent-2)'
+//       : id === 3
+//         ? 'var(--clr-accent-3)'
+//         : 'var(--clr-accent-4)';
+// }
+---
+
+<div class={`card ${name.split(' ')[0]}`} data-id={id}>
+  <Avatar
+    avatar={avatar}
+    name={name}
+    title={title}
+    size={120}
+    outlined='true'
+    outlineColour='light'
+  />
+  <div class='card-content'>
+    <div class='card-title'>
+      <h3 class='name'>{name}</h3>
+      <p class='title mt-xs'>{title}</p>
+    </div>
+    <div class='card-profile pt-sm'>
+      <p>{profile || `Meet ${name}, our team's ${title}`}</p>
+      <button class='open-modal mt-md'>View contact info</button>
+    </div>
+  </div>
+</div>
+
+<style>
+  .card {
+    max-width: 40rem;
+    gap: 1em;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+
+    border-radius: 0.8rem;
+    padding: 1rem;
+  }
+  @media screen and (max-width: 768px) {
+    .card {
+      flex-direction: column;
+      align-items: center;
+    }
+    
+  }
+
+  .card {
+    border: 1.2px solid var(--clr-black);
+  }
+
+  .card-image img {
+    /* width: 100%; */
+    aspect-ratio: 1 / 1;
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: center;
+    filter: saturate(0.2) grayscale(0.8);
+  }
+
+  .card-title {
+    .name {
+      font-size: 1.2rem;
+      font-weight: 700;
+    }
+    .title {
+      font-weight: bold;
+    }
+  }
+
+  .card {
+    transition:
+      color 0.3s,
+      background-color 0.3s;
+  }
+  [data-id='1'] {
+    background-color: var(--clr-accent-1);
+    color: var(--clr-white);
+  }
+  .card[data-id='1']:hover {
+    background-color: hsl(from var(--clr-accent-1) h s 60%);
+    color: var(--clr-black);
+  }
+
+  [data-id='2'] {
+    background-color: var(--clr-accent-2);
+    color: var(--clr-white);
+  }
+  [data-id='2']:hover {
+    background-color: hsl(from var(--clr-accent-2) h s 60%);
+    color: var(--clr-black);
+  }
+  [data-id='3'] {
+    background-color: var(--clr-accent-3);
+    color: var(--clr-black);
+  }
+  [data-id='3']:hover {
+    background-color: hsl(from var(--clr-accent-3) h s 60%);
+    /* color: var(--clr-white); */
+  }
+  [data-id='4'] {
+    background-color: var(--clr-accent-4);
+    color: var(--clr-white);
+  }
+  [data-id='4']:hover {
+    background-color: hsl(from var(--clr-accent-4) h s 50%);
+    color: var(--clr-black);
+  }
+  button.open-modal {
+    cursor: pointer;
+    padding: 0.8em 1.2em;
+    border: 1.2px solid var(--clr-black);
+    border-radius: 0.4rem;
+    background-color: var(--clr-white);
+    font-weight: bold;
+  }
+</style>

@@ -1,0 +1,108 @@
+---
+import Avatar from './Avatar.astro';
+import { Icon } from 'astro-icon/components';
+const { id, avatar, name, email, social } = Astro.props;
+---
+
+<dialog class='contact-modal'>
+  <button class='close-button' data-close-button>&times;</button>
+  <div class='modal-wrapper'>
+    <Avatar id={id} avatar={avatar} name={name} size={240} outlined='true' />
+    <div class='modal-content'>
+      <h3 class='mb-md'>{name}</h3>
+      <div class='email mb-md'>
+        <span class="material-symbols-outlined">
+          mail
+          </span>
+        <p>{email}</p>
+      </div>
+      <div class='social'>
+        <hr>
+        {social && social.length > 0 && <p class="mt-sm mb-xs">Connect with {name.split(' ')[0]} via</p>}
+        {
+          social &&
+            social.map(({ channel, url }: any) => (
+              <a href={url} target='_blank' rel='noopener noreferrer'>
+                <Icon name={channel} size='2rem' />
+              </a>
+            ))
+        }
+      </div>
+    </div>
+  </div>
+</dialog>
+
+<style>
+   .material-symbols-outlined {
+    font-variation-settings:
+      'FILL' 0,
+      'wght' 400,
+      'GRAD' 0,
+      'opsz' 24;
+  }
+  .contact-modal {
+    position: relative;
+    margin-inline: auto;
+    transform: translateY(40%);
+    max-width: 720px;
+    width: calc(100% - 4em);
+    border-radius: 0.8rem;
+    background-color: var(--clr-white);
+    border: 1.2px solid var(--clr-black);
+  }
+  .contact-modal::backdrop {
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(4px);
+  }
+  .modal-wrapper {
+    display: grid;
+    align-items: center;
+    justify-content: center
+    justify-content:;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    height: max-content;
+    padding: 4em 2em;
+  }
+
+  @media screen and (max-width: 768px) {
+    .modal-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: stretch;
+      gap: 4em 0;
+    }
+    h3 {
+      text-align: center;
+    }
+  }
+
+  .modal-content {
+    display: flex;
+    flex-direction: column;
+    gap: 1em; 
+  }
+  .modal-content{
+    font-size: 0.92rem;
+  }
+  .modal-content h3 {
+    font-size: clamp(1.6rem, 2vw, 2.4rem);
+    font-weight: bold;
+  }
+
+  .email {
+    display: flex;
+    align-items: center;
+    gap: 0.4em;
+  }
+  .close-button {
+    position: absolute;
+    top: 0em;
+    right: 0.4em;
+    padding: 0.2em;
+    font-size: 1.6rem;
+    cursor: pointer;
+    background: transparent;
+    border: none;
+  }
+</style>
